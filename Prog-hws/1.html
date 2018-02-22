@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="1.css">
+<title>
+    2D Drawing
+    </title>
+<p>
+    Please note the canvas is 600 x 600. To clear the canvas please refresh.
+    </p>
+        <br>
+<body>
+    <div class="Row">
+        <div class="Column">
+<br>Start point x0 (<input type="number" id="start1">)<br>
+<br>Start point y0 (<input type="number" id="start2">)<br>
+<br>End point x1   (<input type="number" id="end1">)<br>
+<br>End point y1  (<input type="number" id="end2">)<br>
+<br><button onclick ="DrawLine()">Line</button><br>
+    </div>
+<div class="Column">
+<br>Center X (<input type="number" id="centerX">)<br>
+<br>Center Y (<input type="number" id="centerY">)<br>
+<br>Radius Length (<input type="number" id="radius">)<br>
+<br><button onclick ="DrawCircle()">Circle</button><br>
+<br>
+</div>
+<div class="Column">
+<br>Center X (<input type="number" id="X0">)<br>
+<br>Center Y (<input type="number" id="Y0">)<br>
+<br>Radius Length (<input type="number" id="R1">)<br>
+<br>Radius Length2 (<input type="number" id="R2">)<br>
+<br><button onclick ="DrawEllipse()">Ellipse</button><br>
+</div>
+</div>
+    <br>
+<canvas id="canvas" width=600 height=600></canvas>
+
+
+    <script>
+        function DrawLine()
+        {
+            var a = Number(document.getElementById("start1").value);
+            var b = Number(document.getElementById("start2").value);
+            var c = Number(document.getElementById("end1").value);
+            var d = Number(document.getElementById("end2").value);
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imgData.data;
+            BresenhamAlg(a,b,c,d);
+            ctx.putImageData(imgData, 0, 0);
+        
+        function fillPixel(x, y)
+        {
+            var n = (y * canvas.width + x) * 4;
+            data[n] = 0;
+            data[n + 1] = 0;
+            data[n + 2] = 0;
+            data[n + 3] = 500;
+        }
+    
+        function BresenhamAlg(x0, y0, x1, y1)
+        {
+            var dy = y1 - y0;
+            var dx = x1 - x0;
+            var d = 2*dy - dx;
+            var x = x0;
+            var y = y1;
+            while (x <= x1)
+            {
+                fillPixel(x,y);
+                x++;
+            if(d <0)
+            {
+                d += dy + dy;
+            }
+            else
+            {
+                d += 2*(dy -dx);
+                y++;
+            }
+    
+            }
+            }
+        }
+        </script>
+    
+    <script>
+        function DrawCircle()
+        {
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'black';
+            var e = Number(document.getElementById("centerX").value);
+            var f = Number(document.getElementById("centerY").value);
+            var g = Number(document.getElementById("radius").value);
+            
+           function fillPixel(x, y)
+            {
+                ctx.fillRect(x, y, 1, 1);
+            }
+            
+            function MidCircleAlg(x0, y0, r)
+            {
+                var x = r;
+                var y = 0;
+                var rError = 1 - x;
+                
+                while (x >= y)
+                {
+                    fillPixel(x + x0, y + y0);
+                    fillPixel(y + x0, x + y0);
+                    fillPixel(-x + x0, y + y0);
+                    fillPixel(-y + x0, x + y0);
+                    fillPixel(-x + x0, -y + y0);
+                    fillPixel(-y + x0, -x + y0);
+                    fillPixel(x + x0, -y + y0);
+                    fillPixel(y + x0, -x + y0);
+                    y++;
+                    
+                    if (rError < 0)
+                    {
+                        rError += (2 * y) + 1;
+                    }
+                    else
+                    {
+                        x--;
+                        rError += 2 * (y - x + 1);
+                    }
+                }
+            }
+            MidCircleAlg(e, f, g);
+        }
+    </script>
+    
+    <script>
+        var canvas = document.getElementById("canvas");
+        var cntx = canvas.getContext("2d");
+        var canvasData = cntx.getImageData(0, 0, canvas.width, canvas.height);
+    
+    function DrawEllipse()
+    {
+        var x0 = Number(document.getElementById("X0").value);
+        var y0 = Number(document.getElementById("Y0").value);
+        var r1 = Number(document.getElementById("R1").value);
+        var r2 = Number(document.getElementById("R2").value);
+        var X = r1;
+        var Y = 0;
+        var error = 0;
+        var r1_SQ = r1 * r1;
+        var r2_SQ = r2 * r2;
+        var r1r2_SQ = r1_SQ * r2_SQ;
+        var r2x_SQ = r2_SQ * X * X;
+        
+        var x1 = 2 * r2_SQ * X;
+        var y1 = 0;
+        while (x1 >= y1)
+        {
+            fillPixel(X + x0, Y + y0);
+            fillPixel(-X + x0, Y + y0);
+            fillPixel(-X + x0, -Y + y0);
+            fillPixel(X + x0, -Y + y0);
+            
+            Y++;
+            y1 += 2 * r1_SQ;
+            
+            var error = r2x_SQ + r1_SQ * Y * Y - r1r2_SQ + y1+ r1_SQ;
+            
+            if (2 * error + r2_SQ - x1 > 0)
+            {
+                X--;
+                x1 -= 2 * r2_SQ;
+                r2x_SQ = r2_SQ * X * X;
+            }
+        }
+        var X = 0;
+        var Y = r2;
+        var error = 0;
+        var r1y_SQ = r1_SQ * Y * Y;
+        var x1 = 0;
+        var y1 = 2 * r1_SQ * Y;
+        while (y1 > x1)
+        {
+            fillPixel(X + x0, Y + y0);
+            fillPixel(-X + x0, Y + y0);
+            fillPixel(-X + x0, -Y + y0);
+            fillPixel(X + x0, -Y + y0);
+            X++;
+            x1 += 2* r2_SQ;
+            error = r1y_SQ + r2_SQ * X * X - r1r2_SQ + y1 + r1_SQ;
+            if (2 * error + r2_SQ - x1 > 0)
+            {
+                Y--;
+                y1 -= 2*r1_SQ;
+                r1y_SQ = r1_SQ * Y * Y;
+            }
+        }
+        cntx.putImageData(canvasData, 0, 0);
+    }
+    
+    function fillPixel(x,y)
+    {
+        var indx = (x + y * canvas.width) * 4;
+        canvasData.data[indx + 0] = 0;
+        canvasData.data[indx + 1] = 0;
+        canvasData.data[indx + 2] = 0;
+        canvasData.data[indx + 3] = 255;
+    }
+    </script>
+</body>
+</html>
+    

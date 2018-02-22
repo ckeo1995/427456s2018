@@ -1,0 +1,40 @@
+p{
+    width: 300px;
+    border: 10px solid red;
+    padding: 25px;
+    margin: auto;
+}
+
+body{
+    font-family: verdana;
+}
+
+canvas{
+    display: block;
+    border: 10px solid black;
+    margin: auto;
+}
+
+button{
+    margin: auto;
+}
+div{
+    width: 300px;
+    border: 2px solid blue;
+}
+    
+    .Row
+    {
+        display: table;
+        width: 70%;
+        table-layout: fixed;
+        margin: auto;
+    }
+    .Column
+    {
+        display: table-cell;
+        padding: 10px;
+        
+    }
+
+
