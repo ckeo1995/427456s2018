@@ -1,0 +1,50 @@
+p {
+    font-size: 25px;
+    font-weight: bold;
+    font-style: italic;
+}
+a{
+    font-weight: bold;
+    font-style: underline;
+}
+
+
+div {
+    width: 250px;
+    height: 100px;
+    padding: 25px;
+    border: 1px solid #c3c3c3;
+    -webkit-flex-wrap: wrap;
+   
+}
+
+.line_menu {
+    display: block;
+    float: left;
+    background-color: yellow;
+    padding: 20px;
+}
+
+.arc_menu{
+    
+    display: block;
+    float: left;
+    background-color: lightblue;
+    padding: 20px;
+}
+
+.driver_score{
+    display: block;
+    float: left;
+    background-color: orange;
+    padding: 20px;
+    
+}
+
+canvas {
+        width: 1000px;
+        border: 15px solid black;
+        padding: 15px;
+        margin: auto;
+    }
+}
