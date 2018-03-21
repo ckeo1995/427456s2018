@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="2.css">
+        </head>
+<title> Computer Graphics 2 </title>
+<body>
+    <p>  Please refresh the browser to clear the canvas </p>
+<br>
+<div class= "line_menu">
+    <a> Line Fractals </a><br>
+    Ratio <input type= "number" id = "line_ratio"><br>
+        Iterations <input type= "number" id="line_iterations"><br>
+            Thickness <input type = "number" id ="line_thickness"><br>
+                    Color <input type ="color" id="myColor"><br>
+                        <input type="submit" onclick="drawLineFractal()"><br>
+    </div>
+<div class= "arc_menu">
+    <a> Arc Fractals </a><br>
+                            Ratio <input type= "number" id = "line_ratio2"><br>
+                                Iterations <input type= "number" id="line_iterations2"><br>
+                                    Thickness <input type = "number" id ="line_thickness2"><br>
+                                        Color <input type ="color" id="myColor2"><br>
+                                            <input type="submit" onclick="drawArcFractal()"><br>
+    </div>
+<div class= "driver_score">
+    <a> Driver Score </a><br>
+                User Score <input type= "number" id = "user_score"><br>
+                    Radius <input type= "number" id = "user_radius"><br>
+                    Wheel Color <input type ="color" id="myColor3"><br>
+                        <input type="submit" onclick="drawWheel()"><br>
+    </div>
+<canvas id='canvas' height = "700" width = "700"</canvas>
+
+<script>
+    function drawLineFractal()
+    {
+    var canvas = document.getElementById('canvas');
+    var c = canvas.getContext("2d");
+    var deg = Math.PI / 180;
+    c.lineWidth = Number(document.getElementById("line_thickness").value);
+    var ratio = Number(document.getElementById("line_ratio").value);
+    var ratio2 = 1;
+    var ratio3 = ratio2 / ratio;
+    var n = Number(document.getElementById("line_iterations").value);
+    var x = 50;
+    var y = 50;
+    var len = 150;
+    var user_choice = document.getElementById("myColor").value;
+    c.strokeStyle = user_choice;
+    function LineFractal(c, n, x, y, len)
+    {
+        c.translate(x, y);
+        c.moveTo(0,0);
+        leg(n);
+        c.rotate(60*deg);
+        leg(n);
+        c.rotate(-120*deg);
+        leg(n);
+        c.restore();
+        function leg(n)
+        {
+            c.save();
+            if( n === 0 )
+            {
+                c.lineTo(len, 0);
+            }
+            else
+            {
+                c.scale(ratio3, ratio3);
+                leg(n-1);
+                c.rotate(60*deg);
+                leg(n-1);
+                c.rotate(-120*deg);
+                leg(n-1);
+                c.rotate(60*deg);
+                leg(n-1);
+            }
+            c.restore();
+            c.translate(len, 0);
+            
+        }
+        
+    }
+LineFractal(c,n,x,y,len);
+c.stroke();
+    }
+</script>
+<script>
+function drawArcFractal()
+{
+    var canvas = document.getElementById('canvas');
+    var c = canvas.getContext("2d");
+    c.lineWidth = Number(document.getElementById("line_thickness2").value);
+    var user_choice = document.getElementById("myColor2").value;
+    c.strokeStyle = user_choice;
+    var deg = Math.PI / 180;
+    var n = Number(document.getElementById("line_iterations2").value);
+    var ratio = Number(document.getElementById("line_ratio2").value);
+    var x = 200;
+    var y = 100;
+    var len = 150;
+    
+    function drawArc(c, n, x, y,ratio, length)
+    {
+        c.save();
+        c.translate(x, y);
+        c.scale(1/ratio,1/ratio);
+            leg(n);
+        c.rotate(60 * deg);
+            leg(n);
+        c.rotate(-120 * deg);
+            leg(n);
+        c.rotate(60*deg);
+            leg(n);
+        
+        c.restore();
+        function leg(n)
+        {
+            c.save();
+            if (n === 0)
+            {
+                 c.arc(100,100,100,0,0.5*Math.PI);
+            }
+            else 
+            {
+                c.scale(1 /3, 1 /3);
+                leg(n - 1);
+                c.rotate(60 * deg);
+                leg(n - 1);
+                c.rotate(-120 * deg);
+                leg(n - 1);
+                c.rotate(60 * deg);
+                leg(n - 1);
+            }
+            
+            c.restore();
+            c.translate(len, 0);
+        }
+        
+    }
+    drawArc(c,n,x,y,ratio, length);
+    c.stroke();
+}
+</script>
+<script>
+    function drawWheel(r,s)
+    {
+        var canvas = document.getElementById('canvas');
+        var c = canvas.getContext("2d");
+        var score = Number(document.getElementById("user_score").value);
+        var radius = Number(document.getElementById("user_radius").value);
+        var user_choice = document.getElementById("myColor3").value;
+        c.strokeStyle = user_choice;
+        var x = canvas.width/2;
+        var y = canvas.height/2;
+        var rim = 1.5;
+        c.beginPath();
+        if(score == 100)
+        {
+            c.arc(x, y, radius, 0, 2 * Math.PI);
+            c.arc(x, y, radius * .5, 0, 2* Math.PI);
+        }else
+        if( score >= 80 && score <= 99)
+        {
+            c.ellipse(x, y, radius, radius * (score/100), 0, 0, 2 * Math.PI);
+           c.ellipse(x, y, radius * rim, rim * (radius * (score/100)), 0, 0, 2 * Math.PI);
+
+        }else
+        if(score >= 3 && score <= 79)
+        {
+                c.moveTo(x + radius * Math.cos(0), y + radius *  Math.sin(0));
+                for (var i = 1; i <= score; i += 1)
+                {
+                    c.lineTo(x + radius * Math.cos(i * 2 * Math.PI / score), y + radius * Math.sin(i * 2 * Math.PI / score));
+                    
+                }
+                c.arc(x, y, radius * .5, 0, 2* Math.PI);
+        }
+        c.stroke();
+        
+    }
+</script>
+
+
+</body>
+</html>
