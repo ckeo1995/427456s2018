@@ -1,0 +1,1 @@
+Instructions1. First choose colors for both the house and the roof2. Click Render3. The image is now displayed 4. You can rotate the house with the mouse by hovering over the object and moving the mouse 5. Please refresh if you wish to clear/or create a new object
