@@ -1,0 +1,2 @@
+Instructions1. First choose colors for the roof2. Next choose a house material (only brick works)3. Click render and your object will appear4. You can rotate the object with your mouse
+5. Refresh to clear the page and create a new object
