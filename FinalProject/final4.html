@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<title>
+    Final Project
+</title>
+<body>
+    <script src="js/three.js"></script>
+    <script src="js/Orbitcontrols.js"></script>
+    
+    <a>House Color <input type ="color" id="myColor"></a>
+     <a>Roof Color <input type ="color" id="myColor2"> </a>
+     <a>House Size <i>[1 = Small | 2 = Medium | 3 = Large]<i><input type ="number" id="mySize"></a>
+     
+     <button class= "button" onclick = "myDraw()"> RENDER </button>
+     
+     
+     <script>
+     function myDraw()
+     {
+     var scene = new THREE.Scene();
+     scene.background = new THREE.Color(0xFBF7F7);
+     var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+     camera.position.z = 10;
+     var controls = new THREE.OrbitControls( camera );
+     
+     var renderer = new THREE.WebGLRenderer();
+     renderer.setSize( window.innerWidth, window.innerHeight);
+     document.body.appendChild( renderer.domElement );
+     
+     var light = new THREE.PointLight(0xffffff, 1, 0);
+     light.position.z = 10;
+     scene.add(light);
+     
+  
+    //var loader = new THREE.TextureLoader();
+    //var texture = loader.load('brick.jpg', function (texture){
+      //  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        //                      });
+    
+   
+    var user_choice = document.getElementById("myColor").value;
+    var user_choice2 = document.getElementById("myColor2").value;
+    var user_choice3 = document.getElementById("mySize").value;
+    var houseSize;
+    
+    if(user_choice3 == 1)
+    {
+        var houseSize = 1;
+    }
+    else if(user_choice3 == 2){
+        var houseSize = 5;
+    }
+    else if(user_choice3 == 3){
+        
+        var houseSize = 10;
+    }
+    
+    
+    var triangleShape = new THREE.Shape();
+    triangleShape.moveTo(0, 0);
+    triangleShape.lineTo(2, 2);
+    triangleShape.lineTo(2,0);
+    
+    var cubeShape = new THREE.Shape();
+    cubeShape.moveTo(0,0);
+    cubeShape.lineTo(-2, 2);
+    cubeShape.lineTo(0, 4);
+    cubeShape.lineTo(2,2);
+    
+    
+    var extrudedGeometry = new THREE.ExtrudeGeometry(triangleShape, {amount: houseSize, bevelEnabled: false});
+    var extrudedGeometry1 = new THREE.ExtrudeGeometry(cubeShape, {amount: houseSize, bevelEnabled: false});
+    
+    
+    var extrudedMesh = new THREE.Mesh(extrudedGeometry, new THREE.MeshPhongMaterial({color: user_choice2}));
+    scene.add(extrudedMesh);
+    
+    var extrudedMesh1 = new THREE.Mesh(extrudedGeometry1, new THREE.MeshPhongMaterial({color: user_choice}));
+    scene.add(extrudedMesh1);
+    
+    var render = function ()
+    {
+    
+    requestAnimationFrame( render );
+    renderer.render(scene, camera);
+    controls.update();
+   
+    };
+    
+    
+   document.body.onmousemove = function(e)
+   {
+    extrudedMesh.rotation.y = e.pageX / 100;
+    extrudedMesh.rotation.z = e.pageY / 100;
+    extrudedMesh1.rotation.y = e.pageX / 100;
+    extrudedMesh1.rotation.z = e.pageY / 100;
+    }
+    
+    render();
+    
+    };
+    
+    
+     
+    
+    </script>
+    
+    <style>
+        
+        a{
+            font-family: verdana;
+            padding: 10px;
+            font-size: 125%;
+        }
+    i{
+        font-family: verdana;
+        font-size: 75%;
+    }
+    
+    p{
+        
+        font-family: verdana;
+        padding: 10px;
+        font-size: 125%;
+    }
+    
+    .button{
+        
+        float: right;
+        font-size: 150%;
+    }
+    </style>
+</body>
+</html>

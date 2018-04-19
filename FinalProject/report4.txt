@@ -1,0 +1,1 @@
+WEEK 4 PROGRESS REPORTChristopher KeoWeek 4 - In week 4 I implemented the ability to have orbit controls. This allows users to zoom in/out and to rotate the image themselves. I also added the ability to determine the size of the house small, medium and large. 

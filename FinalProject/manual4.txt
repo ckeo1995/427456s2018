@@ -1,0 +1,7 @@
+Instructions1. First choose colors for the house
+2. Choose the color of the roof
+3. Choose a size for the house (1,2,3)
+4. Click render and you'll see your house
+5. To scroll in and out use two fingers on the mouse and go forward and back
+6. To rotate click or simply move the mouse
+7. To clear or redraw please refresh
