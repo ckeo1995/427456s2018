@@ -1,0 +1,1 @@
+WEEK 5 PROGRESS REPORTChristopher KeoWeek 5 - In week 5 I implemented the ability to change the color of the light. This is a small change for this week, I intend to finish features this and next week implementing: textures, scaling, transforming and rotation.
